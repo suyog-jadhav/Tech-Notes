@@ -3,8 +3,8 @@ using namespace std;
 
 struct node{
 	int data;
-	node *left,*right;
-	bool lthread,rthread;
+	node *left, *right;
+	bool lthread, rthread;
 	node(int data){
 		this->data = data;
 		left = right = NULL;
@@ -13,25 +13,26 @@ struct node{
 };
 
 class TBT{
-	private:
-			node *root;
-
-	public:
-			TBT(){
-				root = NULL;
-			}
-			void insert(int data);
-			node* leftmost(node* ptr);
-			void inorder();
+	private :
+		node* root;
+	public :
+		TBT(){
+			root = NULL;
+		}
+		void insert(int data);
+		node* leftmost(node *ptr);
+		void inorder();
 };
 
 void TBT::insert(int data){
 	node *ptr = root;
 	node *parent = NULL;
 
+	//loop for getting to a right position where the data is to be inserted
 	while(ptr){
-		if(data == ptr->data) return; //duplicate values
+		if(data == ptr->data) return; // duplicate values;
 		parent = ptr;
+
 		if(data < ptr->data){
 			if(!ptr->lthread)
 				ptr = ptr->left;
@@ -44,12 +45,12 @@ void TBT::insert(int data){
 	}
 
 	node *temp = new node(data);
-
+	//if tree is empty
 	if(!parent){
 		root = temp;
 		return;
 	}
-
+	//insert at left pointer
 	if(data < parent->data){
 		temp->left = parent->left;
 		temp->right = parent;
@@ -57,14 +58,15 @@ void TBT::insert(int data){
 		parent->left = temp;
 		return;
 	}
-
+	//insert at right pointer
 	temp->right = parent->right;
 	temp->left = parent;
 	parent->rthread = false;
 	parent->right = temp;
 	return;
 }
-node* TBT::leftmost(node* ptr){
+
+node *TBT::leftmost(node *ptr){
 	if(!ptr) return NULL;
 	while(!ptr->lthread)
 		ptr = ptr->left;
@@ -77,19 +79,20 @@ void TBT::inorder(){
 		cout<<ptr->data<<" ";
 		if(ptr->rthread)
 			ptr = ptr->right;
-		else
+		else 
 			ptr = leftmost(ptr->right);
 	}
 	cout<<endl;
 }
-
 int main(){
 	TBT tree;
-	tree.insert(10);
-	tree.insert(30);
 	tree.insert(50);
+	tree.insert(30);
 	tree.insert(70);
 	tree.insert(20);
+	tree.insert(40);
+	tree.insert(60);
+	tree.insert(80);
 	tree.inorder();
 	return 0;
 }
